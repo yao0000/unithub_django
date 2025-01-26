@@ -22,5 +22,6 @@ from controller import UserController
 urlpatterns = [
     path('unithub_backend/login/', UserController.login),
     path('unithub_backend/register/', UserController.register),
-    path('unithub_backend/users/', UserController.get_users_summary),
+    path('unithub_backend/users/', UserController.get_users_list),
+    path('unithub_backend/update_accRight/', UserController.update_access_right),
 ]

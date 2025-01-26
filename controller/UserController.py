@@ -6,6 +6,20 @@ from model.json_result import json_format
 
 @csrf_exempt
 def login(request):
+    """
+        return:
+        success or fail
+        status_code
+        user uid
+
+    status_code:
+        0 = Success
+        -1 = Exception
+        -3 = Account not found
+        -4 = Incorrect password
+        -5 = Blocked
+        -6 = Pending Approval
+    """
     if request.method == "POST":
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -18,6 +32,17 @@ def login(request):
 
 @csrf_exempt
 def register(request):
+    """
+    return:
+        success or fail
+        status_code
+
+    status_code:
+        0 = Success
+        -1 = Exception
+        -3 = Email already exists
+        -4 = Username already exists
+    """
     if request.method == "POST":
         username = request.POST.get('username')
         email = request.POST.get('email')
@@ -29,10 +54,65 @@ def register(request):
 
 @csrf_exempt
 # for manage page
-def get_users_summary(request):
+def get_users_list(request):
+    """
+    return:
+        success or fail
+        status_code
+        users object in array
+
+    status_code:
+        0 = Success
+        -1 = Exception
+        -3 = No data found
+    """
     if request.method == "GET":
         result = User.get_users_list()
         data = []
+
+        if result.is_success():
+            data = result.table[User.USERNAME].tolist()
+
+        return json_format(result, data)
+
+
+@csrf_exempt
+def update_access_right(request):
+    """
+    return:
+        success or fail
+        status_code
+
+    status_code:
+        0 = Success
+        -1 = Exception
+        -3 = Invalid Access
+        -4 = User not found
+    """
+    if request.method == "POST":
+        admin_guid = request.POST.get('admin_guid')
+        user_guid = request.POST.get('user_guid')
+        new_access_right = request.POST.get('new_access_right')
+        #  1: Pending; 0: Active; Else: Block;
+
+        result = User.update_access_right(admin_guid, user_guid, new_access_right)
+        return json_format(result)
+
+
+@csrf_exempt
+def get_user_details(request):
+    """
+    waiting to dev
+    return:
+        success or fail
+        status_code
+
+    """
+    if request.method == "POST":
+        guid = request.POST.get('guid')
+        result = User.get_user_details(guid)
+        data = []
+
         if result.is_success():
             data = result.table[User.USERNAME].tolist()
 

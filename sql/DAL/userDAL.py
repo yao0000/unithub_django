@@ -13,7 +13,7 @@ class User:
     CREATED_DATE = 'CreatedDate'
     GUID = 'GUID'
 
-    COLUMNS = [Result.MESSAGE, Result.RESPONSE, ID, USERNAME, EMAIL, SALT, ROLE, ACCESS_RIGHT, CREATED_DATE, GUID]
+    TABLE_COLUMNS = [Result.MESSAGE, Result.RESPONSE, ID, USERNAME, EMAIL, SALT, ROLE, ACCESS_RIGHT, CREATED_DATE, GUID]
     LOGIN_COLUMNS = ['Message', 'Response', 'GUID']
 
     def __init__(self, id_no, username, email, salt, role, created_date):
@@ -36,13 +36,13 @@ class User:
 
     @staticmethod
     def get_users_list() -> Result:
-        return call_sp(SP.SP_User_Get_User_List, None, User.COLUMNS)
+        return call_sp(SP.SP_User_Get_User_List, None, User.TABLE_COLUMNS)
 
-
-'''
     @staticmethod
-    def update_users_access_right(admin_guid: str, user_guid: str, new_status: int) -> Result:
+    def update_access_right(admin_guid: str, user_guid: str, new_status: int) -> Result:
         params = (admin_guid, user_guid, new_status)
-        result = SQL().call_sp(SP.SP_User_Update_Users_Access_Right, params)
-        return Result(result, Result.COLUMNS)
-'''
+        return call_sp(SP.SP_User_Update_Users_Access_Right, params, Result.COLUMNS)
+
+    @staticmethod
+    def get_user_details(guid: str) -> Result:
+        return call_sp(SP.SP_User_Get_User_Details, guid, User.TABLE_COLUMNS)

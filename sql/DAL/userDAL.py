@@ -10,10 +10,10 @@ class User:
     SALT = 'Salt'
     ROLE = 'Role'
     ACCESS_RIGHT = 'AccessRight'
-    CREATED_DATE = 'CreatedDate'
+    CREATED_TIME = 'CreatedTime'
     GUID = 'GUID'
 
-    TABLE_COLUMNS = [Result.MESSAGE, Result.RESPONSE, ID, USERNAME, EMAIL, SALT, ROLE, ACCESS_RIGHT, CREATED_DATE, GUID]
+    TABLE_COLUMNS = [Result.MESSAGE, Result.RESPONSE, ID, USERNAME, EMAIL, SALT, ROLE, ACCESS_RIGHT, CREATED_TIME, GUID]
     LOGIN_COLUMNS = ['Message', 'Response', 'GUID']
 
     def __init__(self, id_no, username, email, salt, role, created_date):
@@ -45,4 +45,4 @@ class User:
 
     @staticmethod
     def get_user_details(guid: str) -> Result:
-        return call_sp(SP.SP_User_Get_User_Details, guid, User.TABLE_COLUMNS)
+        return call_sp(SP.SP_User_Get_User_Details, (guid, ), User.TABLE_COLUMNS)

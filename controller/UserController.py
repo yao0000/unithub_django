@@ -106,14 +106,27 @@ def get_user_details(request):
     return:
         success or fail
         status_code
+        user details: Object
+
+    status_code:
+        0 = Success
+        -1 = Exception
+        -3 = No data found
 
     """
     if request.method == "POST":
         guid = request.POST.get('guid')
         result = User.get_user_details(guid)
-        data = []
+        data = {}
 
         if result.is_success():
-            data = result.table[User.USERNAME].tolist()
+            temp = result.table.iloc[0]
+            data = {
+                User.USERNAME: temp[User.USERNAME],
+                User.EMAIL: temp[User.EMAIL],
+                User.ACCESS_RIGHT: temp[User.ACCESS_RIGHT],
+                User.CREATED_TIME: temp[User.CREATED_TIME],
+                User.GUID: temp[User.GUID],
+            }
 
         return json_format(result, data)

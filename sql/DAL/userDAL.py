@@ -1,3 +1,4 @@
+from model.json_result import json_format
 from sql.const_value.const_sp import SP
 from model.result import Result
 from sql.DB import call_sp
@@ -25,24 +26,48 @@ class User:
         self.createdDate = created_date
 
     @staticmethod
-    def login_result(email: str, password: str) -> Result:
+    def login_result(email: str, password: str):
         params = (email, password)
-        return call_sp(SP.SP_User_Login, params, User.LOGIN_COLUMNS)
+        result = call_sp(SP.SP_User_Login, params, User.LOGIN_COLUMNS)
+        data = result.table.loc[0, User.GUID] if result.is_success() else None
+        json = {'GUID': data}
+        return json_format(result, json)
 
     @staticmethod
-    def register_result(username: str, email: str, password: str) -> Result:
+    def register_result(username: str, email: str, password: str):
         params = (username, email, password)
-        return call_sp(SP.SP_User_Register, params, Result.COLUMNS)
+        result = call_sp(SP.SP_User_Register, params, Result.COLUMNS)
+        return json_format(result)
 
     @staticmethod
-    def get_users_list() -> Result:
-        return call_sp(SP.SP_User_Get_User_List, None, User.TABLE_COLUMNS)
+    def get_users_list():
+        result = call_sp(SP.SP_User_Get_User_List, None, User.TABLE_COLUMNS)
+        data = []
+
+        if result.is_success():
+            data = result.table[User.USERNAME].tolist()
+
+        return json_format(result, data)
 
     @staticmethod
-    def update_access_right(admin_guid: str, user_guid: str, new_status: int) -> Result:
+    def update_access_right(admin_guid: str, user_guid: str, new_status: int):
         params = (admin_guid, user_guid, new_status)
-        return call_sp(SP.SP_User_Update_Users_Access_Right, params, Result.COLUMNS)
+        result = call_sp(SP.SP_User_Update_Users_Access_Right, params, Result.COLUMNS)
+        return json_format(result)
 
     @staticmethod
-    def get_user_details(guid: str) -> Result:
-        return call_sp(SP.SP_User_Get_User_Details, (guid, ), User.TABLE_COLUMNS)
+    def get_user_details(guid: str):
+        result = call_sp(SP.SP_User_Get_User_Details, (guid, ), User.TABLE_COLUMNS)
+        data = {}
+
+        if result.is_success():
+            temp = result.table.iloc[0]
+            data = {
+                User.USERNAME: temp[User.USERNAME],
+                User.EMAIL: temp[User.EMAIL],
+                User.ACCESS_RIGHT: temp[User.ACCESS_RIGHT],
+                User.CREATED_TIME: temp[User.CREATED_TIME],
+                User.GUID: temp[User.GUID],
+            }
+
+        return json_format(result, data)

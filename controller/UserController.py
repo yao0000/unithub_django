@@ -1,7 +1,6 @@
 from django.views.decorators.csrf import csrf_exempt
 
 from sql.DAL.userDAL import User
-from model.json_result import json_format
 
 
 @csrf_exempt
@@ -23,6 +22,8 @@ def login(request):
     if request.method == "POST":
         email = request.POST.get('email')
         password = request.POST.get('password')
+        # TODO
+        # PENDING password hashing
 
         return User.login_result(email, password)
 
@@ -44,6 +45,8 @@ def register(request):
         username = request.POST.get('username')
         email = request.POST.get('email')
         password = request.POST.get('password')
+        # TODO
+        # pending password hashing
 
         return User.register_result(username, email, password)
 

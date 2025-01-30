@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from controller import UserController
+from controller import UserController, ClientDataController
 
 urlpatterns = [
     path('unithub_backend/login/', UserController.login),
@@ -25,4 +25,6 @@ urlpatterns = [
     path('unithub_backend/users/', UserController.get_users_list),
     path('unithub_backend/update_accRight/', UserController.update_access_right),
     path('unithub_backend/get_user_details/', UserController.get_user_details),
+    path('unithub_backend/get_client_data_list/', ClientDataController.get_client_data_list),
+    path('unithub_backend/post_client_data/', ClientDataController.post_client_data),
 ]

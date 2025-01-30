@@ -15,7 +15,7 @@ class User:
     GUID = 'GUID'
 
     TABLE_COLUMNS = [Result.MESSAGE, Result.RESPONSE, ID, USERNAME, EMAIL, SALT, ROLE, ACCESS_RIGHT, CREATED_TIME, GUID]
-    LOGIN_COLUMNS = ['Message', 'Response', 'GUID']
+    LOGIN_COLUMNS = ['Message', 'Response', 'GUID', USERNAME]
 
     def __init__(self, id_no, username, email, salt, role, created_date):
         self.id = id_no
@@ -29,9 +29,16 @@ class User:
     def login_result(email: str, password: str):
         params = (email, password)
         result = call_sp(SP.SP_User_Login, params, User.LOGIN_COLUMNS)
-        data = result.table.loc[0, User.GUID] if result.is_success() else None
-        json = {'GUID': data}
-        return json_format(result, json)
+        data = []
+
+        if result.is_success():
+            temp = result.table.iloc[0]
+            data = {
+                User.GUID: temp[User.GUID],
+                User.USERNAME: temp[User.USERNAME]
+            }
+
+        return json_format(result, data)
 
     @staticmethod
     def register_result(username: str, email: str, password: str):

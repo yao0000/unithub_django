@@ -12,7 +12,6 @@ class RegisterStatus:
     SUCCESS = 0
     EXCEPTION = -1
     EMAIL_EXISTS = -3
-    USERNAME_EXISTS = -4
 
 
 class GetUserListStatus:

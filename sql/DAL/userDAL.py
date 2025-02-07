@@ -48,7 +48,7 @@ class User:
 
     @staticmethod
     def get_users_list():
-        result = call_sp(SP.SP_User_Get_User_List, None, User.TABLE_COLUMNS)
+        result = call_sp(SP.SP_User_Get_List, None, User.TABLE_COLUMNS)
         data = []
 
         if result.is_success():
@@ -59,12 +59,12 @@ class User:
     @staticmethod
     def update_access_right(admin_guid: str, user_guid: str, new_status: int):
         params = (admin_guid, user_guid, new_status)
-        result = call_sp(SP.SP_User_Update_Users_Access_Right, params, Result.COLUMNS)
+        result = call_sp(SP.SP_User_Update_Access_Right, params, Result.COLUMNS)
         return json_format(result)
 
     @staticmethod
     def get_user_details(guid: str):
-        result = call_sp(SP.SP_User_Get_User_Details, (guid, ), User.TABLE_COLUMNS)
+        result = call_sp(SP.SP_User_Get_Details, (guid,), User.TABLE_COLUMNS)
         data = {}
 
         if result.is_success():

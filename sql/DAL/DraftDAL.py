@@ -4,7 +4,7 @@ from sql.DB import call_sp
 from sql.const_value.const_sp import SP
 
 
-class Client:
+class Draft:
     ID = 'ID'
     IDENTITY = 'Identity'
     NAME = 'Name'
@@ -30,15 +30,15 @@ class Client:
     @staticmethod
     def get_client_data_list(guid: str):
         params = (guid, )
-        result = call_sp(SP.SP_Client_Get_Client_Data_Summary, params, Client.TABLE_COLUMNS)
+        result = call_sp(SP.SP_Draft_Get_List, params, Draft.TABLE_COLUMNS)
         data = []
 
         if result.is_success():
-            data = result.table[Client.ID].tolist()
+            data = result.table[Draft.ID].tolist()
 
         return json_format(result, data)
 
     @staticmethod
     def insert_client_data(params):
-        result = call_sp(SP.SP_Client_Create_Client_Data, params, Result.COLUMNS)
+        result = call_sp(SP.SP_Draft_Create, params, Result.COLUMNS)
         return json_format(result)

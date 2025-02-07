@@ -1,13 +1,13 @@
 from django.views.decorators.csrf import csrf_exempt
 
-from sql.DAL.ClientDataDAL import Client
+from sql.DAL.DraftDAL import Draft
 
 
 @csrf_exempt
 def get_client_data_list(request):
     if request.method == "GET":
         guid = request.GET.get('guid')
-        return Client.get_client_data_list(guid)
+        return Draft.get_client_data_list(guid)
 
 
 @csrf_exempt
@@ -33,4 +33,4 @@ def post_client_data(request):
             req.get('AuthorGuid')
         )
 
-        return Client.insert_client_data(params)
+        return Draft.insert_client_data(params)

@@ -109,3 +109,22 @@ def get_user_details(request):
     if request.method == "POST":
         guid = request.POST.get('guid')
         return User.get_user_details(guid)
+
+
+@csrf_exempt
+def delete_user(request):
+    """
+    return:
+        success or fail
+        status_code
+
+    status_code:
+        0 = Success
+        -1 = Exception
+        -3 = Invalid Access
+        -4 = User not found
+    """
+    if request.method == "POST":
+        admin_guid = request.POST.get('admin_guid')
+        user_guid = request.POST.get('user_guid')
+        return User.delete_result(admin_guid, user_guid)

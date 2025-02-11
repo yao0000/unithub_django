@@ -4,10 +4,18 @@ from sql.DAL.DraftDAL import Draft
 
 
 @csrf_exempt
-def get_client_data_list(request):
+def get_draft_list(request):
     if request.method == "GET":
-        guid = request.GET.get('guid')
-        return Draft.get_client_data_list(guid)
+        author_guid = request.GET.get('author_guid')
+        return Draft.get_draft_list(author_guid)
+
+
+@csrf_exempt
+def get_draft_details(request):
+    if request.method == "GET":
+        draft_guid = request.GET.get('draft_guid')
+        author_guid = request.GET.get('author_guid')
+        return Draft.get_draft_details(draft_guid, author_guid)
 
 
 @csrf_exempt

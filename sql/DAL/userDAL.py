@@ -10,12 +10,13 @@ class User:
     EMAIL = 'Email'
     SALT = 'Salt'
     ROLE = 'Role'
+    PASSWORD = 'Password'
     ACCESS_RIGHT = 'AccessRight'
     CREATED_TIME = 'CreatedTime'
     GUID = 'GUID'
 
-    TABLE_COLUMNS = [Result.MESSAGE, Result.RESPONSE, ID, USERNAME, EMAIL, SALT, ROLE, ACCESS_RIGHT, CREATED_TIME, GUID]
-    LOGIN_COLUMNS = ['Message', 'Response', 'GUID', USERNAME]
+    TABLE_COLUMNS = [ID, USERNAME, EMAIL, SALT, ROLE, ACCESS_RIGHT, CREATED_TIME, GUID]
+    LOGIN_COLUMNS = ['GUID']
 
     def __init__(self, id_no, username, email, salt, role, created_date):
         self.id = id_no
@@ -33,17 +34,14 @@ class User:
 
         if result.is_success():
             temp = result.table.iloc[0]
-            data = {
-                User.GUID: temp[User.GUID],
-                User.USERNAME: temp[User.USERNAME]
-            }
+            data = {User.GUID: temp[User.GUID]}
 
         return json_format(result, data)
 
     @staticmethod
     def register_result(username: str, email: str, password: str):
         params = (username, email, password)
-        result = call_sp(SP.SP_User_Register, params, Result.COLUMNS)
+        result = call_sp(SP.SP_User_Register, params)
         return json_format(result)
 
     @staticmethod
@@ -59,7 +57,7 @@ class User:
     @staticmethod
     def update_access_right(admin_guid: str, user_guid: str, new_status: int):
         params = (admin_guid, user_guid, new_status)
-        result = call_sp(SP.SP_User_Update_Access_Right, params, Result.COLUMNS)
+        result = call_sp(SP.SP_User_Update_Access_Right, params)
         return json_format(result)
 
     @staticmethod
@@ -78,3 +76,9 @@ class User:
             }
 
         return json_format(result, data)
+
+    @staticmethod
+    def delete_result(admin_guid: str, deleting_user_guid: str):
+        params = (admin_guid, deleting_user_guid)
+        result = call_sp(SP.SP_User_Delete, params)
+        return json_format(result)

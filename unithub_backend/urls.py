@@ -25,6 +25,8 @@ urlpatterns = [
     path('unithub_backend/users/', UserController.get_users_list),
     path('unithub_backend/update_accRight/', UserController.update_access_right),
     path('unithub_backend/get_user_details/', UserController.get_user_details),
-    path('unithub_backend/get_client_data_list/', DraftController.get_client_data_list),
+    path('unithub_backend/delete_user/', UserController.delete_user),
+    path('unithub_backend/get_draft_list/', DraftController.get_draft_list),
+    path('unithub_backend/get_draft_details/', DraftController.get_draft_details),
     path('unithub_backend/post_client_data/', DraftController.post_client_data),
 ]

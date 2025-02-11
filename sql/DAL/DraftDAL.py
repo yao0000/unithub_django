@@ -1,11 +1,12 @@
 from model.json_result import json_format
 from model.result import Result
+from sql.DAL.userDAL import User
 from sql.DB import call_sp
 from sql.const_value.const_sp import SP
 
 
 class Draft:
-    ID = 'ID'
+    TITLE = 'Title'
     IDENTITY = 'Identity'
     NAME = 'Name'
     EMAIL = 'Email'
@@ -22,19 +23,33 @@ class Draft:
     REMARKS = 'Remarks'
     CREATED_TIME = 'CreatedTime'
     AUTHOR_GUID = 'AuthorGUID'
+    GUID = 'GUID'
 
-    TABLE_COLUMNS = [Result.MESSAGE, Result.RESPONSE, ID, IDENTITY, NAME, EMAIL, MOBILE, FIRST_TIME,
-                     ADDRESS, POSTCODE, CITY, STATE, PAYMENT_DATE, AGENCY_CMP,
-                     AGENT_NAME, AGENT_PHONE, REMARKS, CREATED_TIME, AUTHOR_GUID]
+    LIST_COLUMNS = [NAME, EMAIL, GUID]
+
+    DETAILS_COLUMNS = [TITLE, NAME, EMAIL, MOBILE,
+                       ADDRESS, POSTCODE, CITY, STATE, PAYMENT_DATE, AGENCY_CMP,
+                       AGENT_NAME, AGENT_PHONE, REMARKS, FIRST_TIME,
+                       CREATED_TIME, GUID, User.PASSWORD]
 
     @staticmethod
-    def get_client_data_list(guid: str):
-        params = (guid, )
-        result = call_sp(SP.SP_Draft_Get_List, params, Draft.TABLE_COLUMNS)
+    def get_draft_list(author_guid: str):
+        params = (author_guid,)
+        result = call_sp(SP.SP_Draft_Get_List, params, Draft.LIST_COLUMNS)
         data = []
 
         if result.is_success():
-            data = result.table[Draft.ID].tolist()
+            data = result.table[[Draft.NAME, Draft.EMAIL, Draft.GUID]].to_dict('records')
+
+        return json_format(result, data)
+
+    @staticmethod
+    def get_draft_details(draft_guid: str, author_guid: str):
+        params = (draft_guid, author_guid)
+        result = call_sp(SP.SP_Draft_Get_Details, params, Draft.DETAILS_COLUMNS)
+        data = []
+        if result.is_success():
+            data = result.table[Draft.DETAILS_COLUMNS].to_dict('records')
 
         return json_format(result, data)
 

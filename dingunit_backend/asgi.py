@@ -1,5 +1,5 @@
 """
-ASGI config for unithub_backend project.
+ASGI config for dingunit_backend project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'unithub_backend.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dingunit_backend.settings')
 
 application = get_asgi_application()

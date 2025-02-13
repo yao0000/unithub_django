@@ -1,5 +1,5 @@
 """
-URL configuration for unithub_backend project.
+URL configuration for dingunit_backend project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.1/topics/http/urls/
@@ -20,13 +20,13 @@ from django.urls import path
 from controller import UserController, DraftController
 
 urlpatterns = [
-    path('unithub_backend/login/', UserController.login),
-    path('unithub_backend/register/', UserController.register),
-    path('unithub_backend/users/', UserController.get_users_list),
-    path('unithub_backend/update_accRight/', UserController.update_access_right),
-    path('unithub_backend/get_user_details/', UserController.get_user_details),
-    path('unithub_backend/delete_user/', UserController.delete_user),
-    path('unithub_backend/get_draft_list/', DraftController.get_draft_list),
-    path('unithub_backend/get_draft_details/', DraftController.get_draft_details),
-    path('unithub_backend/post_client_data/', DraftController.post_client_data),
+    path('dingunit_backend/login/', UserController.login),
+    path('dingunit_backend/register/', UserController.register),
+    path('dingunit_backend/users/', UserController.get_users_list),
+    path('dingunit_backend/update_accRight/', UserController.update_access_right),
+    path('dingunit_backend/get_user_details/', UserController.get_user_details),
+    path('dingunit_backend/delete_user/', UserController.delete_user),
+    path('dingunit_backend/get_draft_list/', DraftController.get_draft_list),
+    path('dingunit_backend/get_draft_details/', DraftController.get_draft_details),
+    path('dingunit_backend/post_client_data/', DraftController.post_client_data),
 ]

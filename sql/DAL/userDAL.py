@@ -3,7 +3,6 @@ from sql.const_value.const_sp import SP
 from model.result import Result
 from sql.DB import call_sp
 
-
 class User:
     ID = 'ID'
     USERNAME = 'Username'
@@ -16,7 +15,8 @@ class User:
     GUID = 'GUID'
 
     TABLE_COLUMNS = [ID, USERNAME, EMAIL, SALT, ROLE, ACCESS_RIGHT, CREATED_TIME, GUID]
-    LOGIN_COLUMNS = ['GUID']
+    LOGIN_COLUMNS = [GUID]
+    MANAGE_COLUMNS = [GUID, USERNAME, ACCESS_RIGHT]
 
     def __init__(self, id_no, username, email, salt, role, created_date):
         self.id = id_no
@@ -45,20 +45,45 @@ class User:
         return json_format(result)
 
     @staticmethod
-    def get_users_list():
-        result = call_sp(SP.SP_User_Get_List, None, User.TABLE_COLUMNS)
-        data = []
+    def get_users_list(page_start: int, page_size: int, search_term: str):
+        """
+        Fetch users list with pagination and search term.
+        """
+        try:
+            # Ensure correct types for pagination
+            page_start = int(page_start)
+            page_size = int(page_size)
 
-        if result.is_success():
-            data = result.table[User.USERNAME].tolist()
+            params = (page_start, page_size, search_term)
+            result = call_sp(SP.SP_User_Get_List, params, User.MANAGE_COLUMNS)
 
-        return json_format(result, data)
+            data = []
+            if result.is_success() and not result.table.empty:
+                data = result.table.rename(
+                    columns={
+                        User.GUID: "guid",
+                        User.USERNAME: "username",
+                        User.ACCESS_RIGHT: "access_right"
+                    }
+                ).to_dict(orient='records')
+
+            return json_format(result, data)
+        
+        except ValueError:
+            return json_format(Result.exception_result("Invalid pagination parameters"))
 
     @staticmethod
-    def update_access_right(admin_guid: str, user_guid: str, new_status: int):
+    def update_access_right(admin_guid: str, user_guid: str, new_status: str):
+        # Convert new_status back to int
+        try:
+            new_status = int(new_status)
+        except ValueError:
+            raise ValueError("Invalid new_status value. It must be a number.")
+
         params = (admin_guid, user_guid, new_status)
         result = call_sp(SP.SP_User_Update_Access_Right, params)
         return json_format(result)
+
 
     @staticmethod
     def get_user_details(guid: str):
@@ -73,6 +98,7 @@ class User:
                 User.ACCESS_RIGHT: temp[User.ACCESS_RIGHT],
                 User.CREATED_TIME: temp[User.CREATED_TIME],
                 User.GUID: temp[User.GUID],
+                User.ROLE: temp[User.ROLE]
             }
 
         return json_format(result, data)
@@ -82,3 +108,4 @@ class User:
         params = (admin_guid, deleting_user_guid)
         result = call_sp(SP.SP_User_Delete, params)
         return json_format(result)
+

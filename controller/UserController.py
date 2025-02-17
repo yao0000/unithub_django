@@ -52,21 +52,17 @@ def register(request):
 
 
 @csrf_exempt
-# for manage page
 def get_users_list(request):
     """
-    return:
-        success or fail
-        status_code
-        users object in array
-
-    status_code:
-        0 = Success
-        -1 = Exception
-        -3 = No data found
+    Handle user listing (with pagination & search).
     """
     if request.method == "GET":
-        return User.get_users_list()
+        # Extract query parameters from request
+        page_start = request.GET.get('page_start', 0)
+        page_size = request.GET.get('page_size', 10)
+        search_term = request.GET.get('search_term', '')
+
+        return User.get_users_list(page_start, page_size, search_term)
 
 
 @csrf_exempt
@@ -86,7 +82,7 @@ def update_access_right(request):
         admin_guid = request.POST.get('admin_guid')
         user_guid = request.POST.get('user_guid')
         new_access_right = request.POST.get('new_access_right')
-        #  1: Pending; 0: Active; Else: Block;
+        #  0: Pending; 1: Active; Else: Block;
 
         return User.update_access_right(admin_guid, user_guid, new_access_right)
 

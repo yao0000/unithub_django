@@ -60,5 +60,10 @@ class Draft:
 
     @staticmethod
     def update_draft_details(params):
-        result = call_sp(SP.SP_Draft_Update, params, Result.COLUMNS)
+        result = call_sp(SP.SP_Draft_Update, params)
+        return json_format(result)
+
+    @staticmethod
+    def delete_draft_data(params):
+        result = call_sp(SP.SP_Draft_Delete, params)
         return json_format(result)

@@ -19,7 +19,7 @@ def get_draft_details(request):
 
 
 @csrf_exempt
-def post_client_data(request):
+def post_draft_data(request):
     if request.method == "POST":
         req = request.POST
 
@@ -41,4 +41,4 @@ def post_client_data(request):
             req.get('AuthorGuid')
         )
 
-        return Draft.insert_client_data(params)
+        return Draft.create_draft_details(params)

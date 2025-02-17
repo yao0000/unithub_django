@@ -28,5 +28,5 @@ urlpatterns = [
     path('dingunit_backend/delete_user/', UserController.delete_user),
     path('dingunit_backend/get_draft_list/', DraftController.get_draft_list),
     path('dingunit_backend/get_draft_details/', DraftController.get_draft_details),
-    path('dingunit_backend/post_client_data/', DraftController.post_client_data),
+    path('dingunit_backend/post_draft_data/', DraftController.post_draft_data),
 ]

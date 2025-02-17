@@ -54,6 +54,11 @@ class Draft:
         return json_format(result, data)
 
     @staticmethod
-    def insert_client_data(params):
-        result = call_sp(SP.SP_Draft_Create, params, Result.COLUMNS)
+    def create_draft_details(params):
+        result = call_sp(SP.SP_Draft_Create, params)
+        return json_format(result)
+
+    @staticmethod
+    def update_draft_details(params):
+        result = call_sp(SP.SP_Draft_Update, params, Result.COLUMNS)
         return json_format(result)

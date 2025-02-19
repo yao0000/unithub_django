@@ -12,6 +12,6 @@ class SP:
     SP_Draft_Update = "SP_Draft_Update"
     SP_Draft_Delete = "SP_Draft_Delete"
 
-    SP_Reservation_Get_Summary = "SP_Reservation_Get_Summary"
-    SP_Reservation_Get_Details = "SP_Reservation_Get_Details"
+    SP_Reservation_Get_List = "SP_Reservation_Get_List"
+    SP_Reservation_Create_Data = "SP_Reservation_Create_Data"
 

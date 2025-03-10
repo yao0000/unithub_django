@@ -57,7 +57,6 @@ def get_users_list(request):
     Handle user listing (with pagination & search).
     """
     if request.method == "GET":
-        # Extract query parameters from request
         page_start = request.GET.get('page_start', 0)
         page_size = request.GET.get('page_size', 10)
         search_term = request.GET.get('search_term', '')
@@ -77,12 +76,17 @@ def update_access_right(request):
         -1 = Exception
         -3 = Invalid Access
         -4 = User not found
+    
+    Access right:   
+        0: Pending 
+        1: Active 
+        Else: Block
     """
     if request.method == "POST":
         admin_guid = request.POST.get('admin_guid')
         user_guid = request.POST.get('user_guid')
         new_access_right = request.POST.get('new_access_right')
-        #  0: Pending; 1: Active; Else: Block;
+        # 
 
         return User.update_access_right(admin_guid, user_guid, new_access_right)
 

@@ -17,7 +17,7 @@ class User:
 
     TABLE_COLUMNS = [ID, USERNAME, EMAIL, SALT, ROLE, ACCESS_RIGHT, CREATED_TIME, GUID]
     LOGIN_COLUMNS = [GUID]
-    MANAGE_COLUMNS = [GUID, USERNAME, ACCESS_RIGHT]
+    MANAGE_COLUMNS = [GUID, USERNAME, ACCESS_RIGHT, EMAIL]
 
     def __init__(self, id_no, username, email, salt, role, created_date):
         self.id = id_no

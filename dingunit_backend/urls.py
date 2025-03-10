@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from controller import UserController, DraftController, ReservationController
+from controller import UserController, DraftController, ReservationController, SessionController
 
 urlpatterns = [
     path('dingunit_backend/login/', UserController.login),
@@ -26,11 +26,16 @@ urlpatterns = [
     path('dingunit_backend/update_accRight/', UserController.update_access_right),
     path('dingunit_backend/get_user_details/', UserController.get_user_details),
     path('dingunit_backend/delete_user/', UserController.delete_user),
+
     path('dingunit_backend/get_draft_list/', DraftController.get_draft_list),
     path('dingunit_backend/get_draft_details/', DraftController.get_draft_details),
     path('dingunit_backend/post_draft_data/', DraftController.post_draft_data),
     path('dingunit_backend/update_draft_details/', DraftController.update_draft_details),
     path('dingunit_backend/delete_draft_data/', DraftController.delete_draft_data),
+    
     path('dingunit_backend/get_reservation_list/', ReservationController.get_reservation_list),
     path('dingunit_backend/post_reservation/', ReservationController.post_reservation),
+
+    path('dingunit_backend/run_reserve/', SessionController.run_reserve),
+    
 ]

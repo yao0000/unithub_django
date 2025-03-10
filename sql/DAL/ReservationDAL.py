@@ -12,8 +12,8 @@ class Reservation:
     CREATED_TIME = 'CreatedTime'
     CLIENT_DATA_GUID = 'DraftGUID'
 
-    TABLE_COLUMNS = [AUTHOR_GUID, STATUS, CREATED_TIME, CLIENT_DATA_GUID]
-    RESERVATION_LIST_COLUMNS = [Draft.TITLE, Draft.NAME, STATUS, CREATED_TIME]
+    TABLE_COLUMNS = [AUTHOR_GUID, STATUS, Draft.CREATED_TIME, CLIENT_DATA_GUID]
+    RESERVATION_LIST_COLUMNS = [Draft.TITLE, Draft.FULL_NAME, STATUS, CREATED_TIME]
 
     @staticmethod
     def get_reservation_list(author_guid: str):

@@ -6,31 +6,51 @@ from sql.const_value.const_sp import SP
 
 
 class Draft:
-    TITLE = 'Title'
-    IDENTITY = 'Identity'
-    NAME = 'Name'
-    EMAIL = 'Email'
-    MOBILE = 'Mobile'
-    FIRST_TIME = 'FirstTime'
-    ADDRESS = 'Address'
-    POSTCODE = 'PostCode'
-    CITY = 'City'
-    STATE = 'State'
-    PAYMENT_DATE = 'PaymentDate'
-    AGENCY_CMP = 'AgencyCmp'
-    AGENT_NAME = 'AgentName'
-    AGENT_PHONE = 'AgentPhone'
-    REMARKS = 'Remarks'
-    CREATED_TIME = 'CreatedTime'
-    AUTHOR_GUID = 'AuthorGUID'
-    GUID = 'GUID'
+    IDENTITY_TYPE    = 'IdentityType'
+    IDENTITY_NUMBER  = 'IdentityNumber'
+    TITLE            = 'Title'
+    FULL_NAME        = 'FullName'
+    PREFERRED_NAME   = 'PreferredName'
+    EMAIL            = 'Email'
+    MOBILE           = 'Mobile'
+    ADDRESS          = 'Address'
+    POSTCODE         = 'PostCode'
+    CITY             = 'City'
+    STATE            = 'State'
+    FIRST_TIME       = 'FirstTime'
+    PAYMENT_DATE     = 'PaymentDate'
+    AGENCY_CMP       = 'AgencyCmp'
+    AGENT_NAME       = 'AgentName'
+    AGENT_PHONE      = 'AgentPhone'
+    REMARKS          = 'Remarks'
+    CREATED_TIME     = 'CreatedTime'
+    AUTHOR_GUID      = 'AuthorGUID'
+    GUID             = 'GUID'
 
-    LIST_COLUMNS = [NAME, EMAIL, GUID]
+    LIST_COLUMNS = [FULL_NAME, EMAIL, CREATED_TIME, GUID]
 
-    DETAILS_COLUMNS = [TITLE, NAME, EMAIL, MOBILE,
-                       ADDRESS, POSTCODE, CITY, STATE, PAYMENT_DATE, AGENCY_CMP,
-                       AGENT_NAME, AGENT_PHONE, REMARKS, FIRST_TIME,
-                       CREATED_TIME, GUID, User.PASSWORD]
+    DETAILS_COLUMNS = [
+        IDENTITY_TYPE,
+        IDENTITY_NUMBER,
+        TITLE,
+        FULL_NAME,
+        PREFERRED_NAME,
+        EMAIL,
+        MOBILE,
+        ADDRESS,
+        POSTCODE,
+        CITY,
+        STATE,
+        FIRST_TIME,
+        PAYMENT_DATE,
+        AGENCY_CMP,
+        AGENT_NAME,
+        AGENT_PHONE,
+        REMARKS,
+        CREATED_TIME,  
+        GUID,  
+        AUTHOR_GUID 
+    ]
 
     @staticmethod
     def get_draft_list(author_guid: str):
@@ -39,15 +59,16 @@ class Draft:
         data = []
 
         if result.is_success():
-            data = result.table[[Draft.NAME, Draft.EMAIL, Draft.GUID]].to_dict('records')
+            data = result.table[Draft.LIST_COLUMNS].to_dict('records')
 
         return json_format(result, data)
 
     @staticmethod
-    def get_draft_details(draft_guid: str, author_guid: str):
-        params = (draft_guid, author_guid)
+    def get_draft_details(draft_guid: str):
+        params = (draft_guid,)
         result = call_sp(SP.SP_Draft_Get_Details, params, Draft.DETAILS_COLUMNS)
         data = []
+
         if result.is_success():
             data = result.table[Draft.DETAILS_COLUMNS].to_dict('records')
 

@@ -6,12 +6,17 @@ from sql.const_value.const_sp import SP
 
 
 class Draft:
+    MHUB_EMAIL       = 'MhubEmail'      
+    MHUB_PASSWORD    = 'MhubPassword'    
+    PROJECT_NAME     = 'ProjectName'     
+    BLOCK_NAME       = 'BlockName'       
+    UNIT_NAME        = 'UnitName'        
     IDENTITY_TYPE    = 'IdentityType'
     IDENTITY_NUMBER  = 'IdentityNumber'
     TITLE            = 'Title'
     FULL_NAME        = 'FullName'
     PREFERRED_NAME   = 'PreferredName'
-    EMAIL            = 'Email'
+    CLIENTEMAIL      = 'ClientEmail'
     MOBILE           = 'Mobile'
     ADDRESS          = 'Address'
     POSTCODE         = 'PostCode'
@@ -26,16 +31,22 @@ class Draft:
     CREATED_TIME     = 'CreatedTime'
     AUTHOR_GUID      = 'AuthorGUID'
     GUID             = 'GUID'
+    DRAFTSTATUS      = 'DraftStatus' 
 
-    LIST_COLUMNS = [FULL_NAME, EMAIL, CREATED_TIME, GUID]
+    LIST_COLUMNS = [FULL_NAME, CLIENTEMAIL, CREATED_TIME, GUID, DRAFTSTATUS]
 
     DETAILS_COLUMNS = [
+        MHUB_EMAIL,       
+        MHUB_PASSWORD,    
+        PROJECT_NAME,     
+        BLOCK_NAME,       
+        UNIT_NAME,             
         IDENTITY_TYPE,
         IDENTITY_NUMBER,
         TITLE,
         FULL_NAME,
         PREFERRED_NAME,
-        EMAIL,
+        CLIENTEMAIL,
         MOBILE,
         ADDRESS,
         POSTCODE,

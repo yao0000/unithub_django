@@ -36,12 +36,17 @@ def get_params(req):
 
     params = (
         req.get('AuthorGuid'),
+        req.get('MhubEmail'),        
+        req.get('MhubPassword'),     
+        req.get('ProjectName'),      
+        req.get('BlockName'),        
+        req.get('UnitName'),         
         req.get('IdentityType'),
         req.get('IdentityNumber'),
         req.get('Title'),
         req.get('FullName'),
         req.get('PreferredName'),
-        req.get('Email'),
+        req.get('ClientEmail'),
         req.get('Mobile'),
         req.get('Address'),
         req.get('Postcode'),        

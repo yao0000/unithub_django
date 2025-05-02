@@ -10,22 +10,20 @@ class User:
     ID = 'ID'
     USERNAME = 'Username'
     EMAIL = 'Email'
-    SALT = 'Salt'
     ROLE = 'Role'
     PASSWORD = 'HashedPwd'
     ACCESS_RIGHT = 'AccessRight'
     CREATED_TIME = 'CreatedTime'
     GUID = 'GUID'
 
-    TABLE_COLUMNS = [ID, USERNAME, EMAIL, SALT, ROLE, ACCESS_RIGHT, CREATED_TIME, GUID]
+    TABLE_COLUMNS = [ID, USERNAME, EMAIL, ROLE, ACCESS_RIGHT, CREATED_TIME, GUID]
     LOGIN_COLUMNS = [PASSWORD, GUID]
     MANAGE_COLUMNS = [GUID, USERNAME, ACCESS_RIGHT, EMAIL]
 
-    def __init__(self, id_no, username, email, salt, role, created_date):
+    def __init__(self, id_no, username, email, role, created_date):
         self.id = id_no
         self.username = username
         self.email = email
-        self.salt = salt
         self.role = role
         self.createdDate = created_date
 
@@ -46,7 +44,7 @@ class User:
             
         data = []
 
-        if result.is_success():
+        if result.status_code == 0:
             temp = result.table.iloc[0]
             data = {User.GUID: temp[User.GUID]}
 

@@ -18,7 +18,9 @@ def main():
         "pymysql",              # MySQL connector for Python (if you are using PyMySQL)
         "pandas",               # Pandas for data manipulation
         "mysqlclient",           # MySQL client (alternative to PyMySQL, recommended for performance)
-        "django-cors-headers"
+        "django-cors-headers",
+        "selenium",
+        "webdriver-manager"
     ]
 
     for package in packages:

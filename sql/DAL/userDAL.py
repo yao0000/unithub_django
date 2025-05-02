@@ -1,3 +1,5 @@
+from django.contrib.auth.hashers import check_password
+
 from model.json_result import json_format
 from sql.const_value.const_sp import SP
 from model.result import Result
@@ -10,13 +12,13 @@ class User:
     EMAIL = 'Email'
     SALT = 'Salt'
     ROLE = 'Role'
-    PASSWORD = 'Password'
+    PASSWORD = 'HashedPwd'
     ACCESS_RIGHT = 'AccessRight'
     CREATED_TIME = 'CreatedTime'
     GUID = 'GUID'
 
     TABLE_COLUMNS = [ID, USERNAME, EMAIL, SALT, ROLE, ACCESS_RIGHT, CREATED_TIME, GUID]
-    LOGIN_COLUMNS = [GUID]
+    LOGIN_COLUMNS = [PASSWORD, GUID]
     MANAGE_COLUMNS = [GUID, USERNAME, ACCESS_RIGHT, EMAIL]
 
     def __init__(self, id_no, username, email, salt, role, created_date):
@@ -29,8 +31,19 @@ class User:
 
     @staticmethod
     def login_result(email: str, password: str):
-        params = (email, password)
+        params = (email, )
         result = call_sp(SP.SP_User_Login, params, User.LOGIN_COLUMNS)
+        print(result)
+        if result.status_code == 0:
+            userData = result.table.iloc[0]
+            isSuccess = check_password(password, userData[User.PASSWORD])
+            result.table.HashedPwd = ''
+            if isSuccess == True: 
+                result.msg = 'Login Successfully'
+            else:
+                result.msg = 'Invalid Password'
+                result.status_code = -4
+            
         data = []
 
         if result.is_success():

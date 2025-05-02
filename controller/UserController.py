@@ -1,4 +1,5 @@
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.hashers import make_password
 
 from sql.DAL.userDAL import User
 
@@ -22,8 +23,6 @@ def login(request):
     if request.method == "POST":
         email = request.POST.get('email')
         password = request.POST.get('password')
-        # TODO
-        # PENDING password hashing
 
         return User.login_result(email, password)
 
@@ -45,8 +44,7 @@ def register(request):
         username = request.POST.get('username')
         email = request.POST.get('email')
         password = request.POST.get('password')
-        # TODO
-        # pending password hashing
+        password = make_password(password)
 
         return User.register_result(username, email, password)
 

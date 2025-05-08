@@ -17,11 +17,13 @@ class Draft:
     FULL_NAME        = 'FullName'
     PREFERRED_NAME   = 'PreferredName'
     CLIENTEMAIL      = 'ClientEmail'
+    COUNTRY_CODE     = 'CountryCode'
     MOBILE           = 'Mobile'
     ADDRESS          = 'Address'
     POSTCODE         = 'PostCode'
     CITY             = 'City'
     STATE            = 'State'
+    COUNTRY_NAME    = 'CountryName'
     FIRST_TIME       = 'FirstTime'
     PAYMENT_DATE     = 'PaymentDate'
     AGENCY_CMP       = 'AgencyCmp'
@@ -47,11 +49,13 @@ class Draft:
         FULL_NAME,
         PREFERRED_NAME,
         CLIENTEMAIL,
+        COUNTRY_CODE,
         MOBILE,
         ADDRESS,
         POSTCODE,
         CITY,
         STATE,
+        COUNTRY_NAME,
         FIRST_TIME,
         PAYMENT_DATE,
         AGENCY_CMP,

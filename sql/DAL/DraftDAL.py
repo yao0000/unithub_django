@@ -23,7 +23,7 @@ class Draft:
     POSTCODE         = 'PostCode'
     CITY             = 'City'
     STATE            = 'State'
-    COUNTRY_NAME    = 'CountryName'
+    COUNTRY          = 'Country'
     FIRST_TIME       = 'FirstTime'
     PAYMENT_DATE     = 'PaymentDate'
     AGENCY_CMP       = 'AgencyCmp'
@@ -55,7 +55,7 @@ class Draft:
         POSTCODE,
         CITY,
         STATE,
-        COUNTRY_NAME,
+        COUNTRY,
         FIRST_TIME,
         PAYMENT_DATE,
         AGENCY_CMP,

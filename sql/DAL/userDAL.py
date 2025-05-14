@@ -29,24 +29,22 @@ class User:
 
     @staticmethod
     def login_result(email: str, password: str):
+        data = []
         params = (email, )
         result = call_sp(SP.SP_User_Login, params, User.LOGIN_COLUMNS)
         print(result)
+
         if result.status_code == 0:
             userData = result.table.iloc[0]
             isSuccess = check_password(password, userData[User.PASSWORD])
+            data = {User.GUID: userData[User.GUID]}
+
             result.table.HashedPwd = ''
             if isSuccess == True: 
                 result.msg = 'Login Successfully'
             else:
                 result.msg = 'Invalid Password'
                 result.status_code = -4
-            
-        data = []
-
-        if result.status_code == 0:
-            temp = result.table.iloc[0]
-            data = {User.GUID: temp[User.GUID]}
 
         return json_format(result, data)
 
@@ -72,7 +70,6 @@ class User:
 
     @staticmethod
     def update_access_right(admin_guid: str, user_guid: str, new_status: str):
-        # Convert new_status back to int
         try:
             new_status = int(new_status)
         except ValueError:
@@ -85,18 +82,10 @@ class User:
     @staticmethod
     def get_user_details(guid: str):
         result = call_sp(SP.SP_User_Get_Details, (guid,), User.TABLE_COLUMNS)
-        data = {}
+        data = []
 
-        if result.is_success():
-            temp = result.table.iloc[0]
-            data = {
-                User.USERNAME: temp[User.USERNAME],
-                User.EMAIL: temp[User.EMAIL],
-                User.ACCESS_RIGHT: temp[User.ACCESS_RIGHT],
-                User.CREATED_TIME: temp[User.CREATED_TIME],
-                User.GUID: temp[User.GUID],
-                User.ROLE: temp[User.ROLE]
-            }
+        if result.is_success() and not result.table.empty:
+            data = result.table[User.TABLE_COLUMNS].to_dict(orient='records')[0]
 
         return json_format(result, data)
 
